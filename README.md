@@ -56,6 +56,15 @@ This creates a more structured, fair, and scalable viva process.
 6. Next question difficulty is adjusted based on performance  
 
 ---
+## Screenshots
+
+### 🏠 Home / Question Interface
+![Question Screen]<img width="1917" height="900" alt="image" src="https://github.com/user-attachments/assets/111a1391-2b9e-4483-8de3-15431252b031" />
+
+
+### 📊 Viva Analysis Report
+![Report Screen]<img width="1919" height="910" alt="image" src="https://github.com/user-attachments/assets/6cc87708-b392-4ac5-a0fb-497b81ee6804" />
+
 
 ## Results
 - Achieved over **85% accuracy** compared to manual evaluation  

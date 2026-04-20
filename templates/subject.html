@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VivaAI – Choose Subject</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f0f1a; color: #eee; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .card { background: #1a1a2e; padding: 2.5rem; border-radius: 14px; width: 500px; max-width: 95vw; box-shadow: 0 0 40px #0008; text-align: center; }
+    h1 { color: #7eb8f7; margin-bottom: 0.5rem; }
+    .welcome { color: #888; margin-bottom: 2rem; font-size: 0.95rem; }
+    .subjects { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
+    .subject-card { background: #111; border: 2px solid #333; border-radius: 12px; padding: 2rem 1.5rem; cursor: pointer; width: 200px; transition: all 0.2s; }
+    .subject-card:hover { border-color: #3a86ff; background: #161630; transform: translateY(-3px); }
+    .subject-card .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .subject-card h3 { color: #fff; margin-bottom: 0.4rem; }
+    .subject-card p { color: #888; font-size: 0.8rem; }
+    .logout { margin-top: 2rem; color: #555; font-size: 0.85rem; cursor: pointer; }
+    .logout:hover { color: #f87171; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>🎓 VivaAI</h1>
+  <p class="welcome">Welcome, <b style="color:#7eb8f7">{{ name }}</b>! Choose your subject to begin.</p>
+  <div class="subjects">
+    <div class="subject-card" onclick="selectSubject('ML')">
+      <div class="icon">🤖</div>
+      <h3>Machine Learning</h3>
+      <p>Basics to advanced ML concepts</p>
+    </div>
+    <div class="subject-card" onclick="selectSubject('DBMS')">
+      <div class="icon">🗄️</div>
+      <h3>DBMS</h3>
+      <p>Database fundamentals & SQL</p>
+    </div>
+  </div>
+  <p class="logout" onclick="window.location='/api/logout'">Logout</p>
+</div>
+<script>
+async function selectSubject(subject) {
+  await fetch("/api/set_subject", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ subject })
+  });
+  window.location = "/viva";
+}
+</script>
+</body>
+</html>

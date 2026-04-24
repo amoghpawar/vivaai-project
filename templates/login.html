@@ -18,6 +18,7 @@
     label { font-size: 0.85rem; color: #aaa; display: block; margin-bottom: 0.3rem; margin-top: 1rem; }
     input { width: 100%; padding: 0.75rem; background: #111; color: #eee; border: 1px solid #333; border-radius: 8px; font-size: 1rem; }
     input:focus { outline: none; border-color: #3a86ff; }
+    input[type="password"] { user-select: none; }
     button { width: 100%; padding: 0.8rem; margin-top: 1.5rem; background: #3a86ff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold; border-radius: 8px; }
     button:hover { background: #265dcb; }
     #login-msg, #signup-msg { text-align: center; margin-top: 1rem; font-size: 0.9rem; min-height: 1.2rem; }
@@ -46,7 +47,9 @@
     <input type="email" id="login-email" placeholder="Enter your email" />
     <label>Password</label>
     <input type="password" id="login-password" placeholder="Enter your password"
-           onkeydown="if(event.key==='Enter') login()" />
+           onkeydown="if(event.key==='Enter') login()"
+           onpaste="return false" oncopy="return false" oncut="return false"
+           autocomplete="off" /> 
     <button onclick="login()">Login →</button>
     <p id="login-msg"></p>
   <p class="hint">Demo account: <b>test@gmail.com</b> / <b>1234</b></p>
@@ -59,10 +62,14 @@
     <label>Email Address</label>
     <input type="email" id="signup-email" placeholder="Enter your email" />
     <label>Password</label>
-    <input type="password" id="signup-password" placeholder="Create a password" />
+    <input type="password" id="signup-password" placeholder="Create a password"
+           onpaste="return false" oncopy="return false" oncut="return false"
+           autocomplete="new-password" />
     <label>Confirm Password</label>
     <input type="password" id="signup-confirm" placeholder="Confirm your password"
-           onkeydown="if(event.key==='Enter') signup()" />
+           onkeydown="if(event.key==='Enter') signup()"
+           onpaste="return false" oncopy="return false" oncut="return false"
+           autocomplete="new-password" />
     <button onclick="signup()">Create Account →</button>
     <p id="signup-msg"></p>
   </div>

@@ -38,8 +38,21 @@ function loadQuestion(q) {
 
 window.onload = function () {
     fetch("/question")
-        .then(res => res.json())
-        .then(data => loadQuestion(data));
+        .then(res => {
+            if (!res.ok) throw new Error("Server error: " + res.status);
+            return res.json();
+        })
+        .then(data => {
+            if (!data || !data.id) {
+                document.getElementById("question-text").innerText = "No questions found. Please import the SQL file.";
+                return;
+            }
+            loadQuestion(data);
+        })
+        .catch(err => {
+            document.getElementById("question-text").innerText = "Error loading question. Please logout and login again.";
+            console.error(err);
+        });
 };
 
 async function getHint() {
@@ -193,12 +206,55 @@ function showAnalysis() {
     }
 
     html += `
-        <div style="display:flex;gap:0.75rem;margin-top:1.5rem">
+        <div style="display:flex;gap:0.75rem;margin-top:1.5rem;flex-wrap:wrap">
             <button onclick="restartViva()" style="flex:1;padding:0.8rem;font-size:1rem;background:#3a86ff">🔄 Try Again</button>
             <button onclick="window.location='/subject'" style="flex:1;padding:0.8rem;font-size:1rem;background:#555">🔀 Change Subject</button>
+            <button onclick="saveAsPDF()" style="flex:1;padding:0.8rem;font-size:1rem;background:#16a34a">📄 Save as PDF</button>
         </div>`;
 
     document.querySelector(".card").innerHTML = html;
+}
+
+function saveAsPDF() {
+    const card = document.querySelector(".card");
+    const buttons = card.querySelector("div:last-child");
+
+    // Hide buttons before printing
+    buttons.style.display = "none";
+
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>VivaAI Analysis Report</title>
+            <style>
+                body { font-family: 'Segoe UI', sans-serif; background: white; color: #111; padding: 2rem; max-width: 800px; margin: auto; }
+                h2 { color: #1a1a6e; border-bottom: 2px solid #3a86ff; padding-bottom: 0.5rem; }
+                h3 { color: #333; margin-top: 1.5rem; }
+                div { margin-bottom: 0.5rem; }
+                b { color: #111; }
+                small { color: #444; }
+                @media print {
+                    body { padding: 0; }
+                }
+            </style>
+        </head>
+        <body>
+            ${card.innerHTML}
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+
+    // Show buttons again
+    buttons.style.display = "flex";
+
+    printWindow.onload = function() {
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+    };
 }
 
 function restartViva() {
